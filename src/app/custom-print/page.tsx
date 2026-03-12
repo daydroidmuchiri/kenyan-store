@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/custom-print/page.tsx
 // Landing page for the print-on-demand feature
 

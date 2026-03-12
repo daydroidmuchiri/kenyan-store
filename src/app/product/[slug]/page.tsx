@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/product/[slug]/page.tsx
 // Product detail page with images, variants, add to cart, reviews
 

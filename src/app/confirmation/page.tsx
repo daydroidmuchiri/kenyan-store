@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/confirmation/page.tsx
 import { notFound } from "next/navigation";
 import Link from "next/link";

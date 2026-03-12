@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/checkout/page.tsx
 "use client";
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/admin/designs/page.tsx
 // Admin panel for reviewing and managing custom print designs
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/custom-print/[slug]/page.tsx
 // The main design studio page for a specific printable product
 

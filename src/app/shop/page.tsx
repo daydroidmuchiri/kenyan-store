@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/shop/page.tsx
 // Product listing page with filters, search, and pagination
 
