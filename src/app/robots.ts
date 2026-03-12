@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/robots.ts
 import { MetadataRoute } from "next";
 

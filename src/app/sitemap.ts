@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/sitemap.ts
 import { MetadataRoute } from "next";
 import prisma from "@/lib/db/prisma";
