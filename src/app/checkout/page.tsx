@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic";
-// src/app/checkout/page.tsx
 "use client";
+// src/app/checkout/page.tsx
+export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
