@@ -1,5 +1,5 @@
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const fetchCache = "force-no-store";
 // Admin design moderation — approve, reject, flag
 
 import { NextRequest, NextResponse } from "next/server";
@@ -20,6 +20,7 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions);
     const user = session?.user as any;
+    const _ = req.nextUrl; // Force dynamic behavior
 
     if (!user || user?.role !== "ADMIN") {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
@@ -85,6 +86,7 @@ export async function GET(
   try {
     const session = await getServerSession(authOptions);
     const user = session?.user as any;
+    const _ = req.nextUrl; // Force dynamic behavior
 
     if (!user || user?.role !== "ADMIN") {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
