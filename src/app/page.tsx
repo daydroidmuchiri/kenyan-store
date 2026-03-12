@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/page.tsx
 // Home page - Hero, categories, featured products, trust signals
 
