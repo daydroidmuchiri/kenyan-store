@@ -1,5 +1,6 @@
-// src/app/register/page.tsx
 "use client";
+export const dynamic = "force-dynamic";
+// src/app/register/page.tsx
 
 import { useState } from "react";
 import Link from "next/link";
