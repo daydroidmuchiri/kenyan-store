@@ -1,5 +1,5 @@
-// src/app/api/admin/designs/print-status/route.ts
 // Update print status of a custom order item
+export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
@@ -23,7 +23,9 @@ const schema = z.object({
 export async function PATCH(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== "ADMIN") {
+    const user = session?.user as any;
+
+    if (!user || user?.role !== "ADMIN") {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 

@@ -1,5 +1,5 @@
-// src/app/api/orders/route.ts
 // Create order API
+export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

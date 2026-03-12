@@ -1,5 +1,5 @@
-// src/app/api/designs/upload/route.ts
 // Upload design images to Cloudinary
+export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

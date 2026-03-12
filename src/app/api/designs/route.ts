@@ -1,5 +1,5 @@
-// src/app/api/designs/route.ts
 // Save and retrieve custom designs
+export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

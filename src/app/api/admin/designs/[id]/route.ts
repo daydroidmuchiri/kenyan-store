@@ -1,5 +1,5 @@
-// src/app/api/admin/designs/[id]/route.ts
 // Admin design moderation — approve, reject, flag
+export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
@@ -18,7 +18,9 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== "ADMIN") {
+    const user = session?.user as any;
+
+    if (!user || user?.role !== "ADMIN") {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 
@@ -81,7 +83,9 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== "ADMIN") {
+    const user = session?.user as any;
+
+    if (!user || user?.role !== "ADMIN") {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 
