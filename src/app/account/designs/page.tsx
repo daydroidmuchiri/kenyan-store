@@ -45,9 +45,13 @@ const PRINT_STATUS_STYLE: Record<string, string> = {
 
 export default async function MyDesignsPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/login?callbackUrl=/account/designs");
+  const user = session?.user as any;
+  
+  if (!user?.id) {
+    redirect("/login?callbackUrl=/account/designs");
+  }
 
-  const designs = await getUserDesigns(session.user.id as string);
+  const designs = await getUserDesigns(user.id);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">

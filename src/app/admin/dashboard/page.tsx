@@ -78,8 +78,9 @@ async function getAdminStats() {
 
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
+  const user = session?.user as any;
 
-  if (!session || (session.user as any)?.role !== "ADMIN") {
+  if (!session || user?.role !== "ADMIN") {
     redirect("/login");
   }
 
@@ -143,7 +144,7 @@ export default async function AdminDashboard() {
           <Link href="/shop" className="text-sm text-white/70 hover:text-white">
             View Store
           </Link>
-          <span className="text-xs text-white/50">{session.user?.email}</span>
+          <span className="text-xs text-white/50">{user?.email}</span>
         </div>
       </header>
 

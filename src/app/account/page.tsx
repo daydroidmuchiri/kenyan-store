@@ -32,9 +32,13 @@ const statusColors: Record<string, string> = {
 
 export default async function AccountPage() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/login?callbackUrl=/account");
+  const user = session?.user as any;
 
-  const { orders, addresses, wishlistCount } = await getAccountData(session.user.id as string);
+  if (!user?.id) {
+    redirect("/login?callbackUrl=/account");
+  }
+
+  const { orders, addresses, wishlistCount } = await getAccountData(user.id);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
@@ -42,9 +46,9 @@ export default async function AccountPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-3xl font-light">
-            Hello, {session.user?.name?.split(" ")[0] || "there"} 👋
+            Hello, {user?.name?.split(" ")[0] || "there"} 👋
           </h1>
-          <p className="text-muted text-sm mt-1">{session.user?.email}</p>
+          <p className="text-muted text-sm mt-1">{user?.email}</p>
         </div>
       </div>
 
