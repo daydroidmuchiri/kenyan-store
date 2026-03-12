@@ -1,5 +1,6 @@
-// Admin design moderation — approve, reject, flag
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// Admin design moderation — approve, reject, flag
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

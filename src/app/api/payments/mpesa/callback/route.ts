@@ -1,5 +1,6 @@
-// src/app/api/payments/mpesa/callback/route.ts
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// src/app/api/payments/mpesa/callback/route.ts
 // M-Pesa Daraja callback — called by Safaricom servers after payment
 
 import { NextRequest, NextResponse } from "next/server";

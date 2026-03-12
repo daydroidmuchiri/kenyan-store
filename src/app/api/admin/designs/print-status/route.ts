@@ -1,5 +1,6 @@
-// Update print status of a custom order item
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// Update print status of a custom order item
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

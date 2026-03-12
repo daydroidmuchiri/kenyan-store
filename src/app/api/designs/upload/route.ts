@@ -1,5 +1,6 @@
-// Upload design images to Cloudinary
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// Upload design images to Cloudinary
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";

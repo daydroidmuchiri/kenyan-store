@@ -1,5 +1,6 @@
-// src/app/api/auth/register/route.ts
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// src/app/api/auth/register/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/db/prisma";

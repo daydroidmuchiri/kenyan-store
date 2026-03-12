@@ -1,5 +1,6 @@
-// Save and retrieve custom designs
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+// Save and retrieve custom designs
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
