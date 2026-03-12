@@ -157,7 +157,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               Showing {Math.min((page - 1) * PAGE_SIZE + 1, total)}–
               {Math.min(page * PAGE_SIZE, total)} of {total}
             </p>
-            <SortSelect currentSort={searchParams.sort} />
+            <SortSelect currentSort={searchParams.sort} searchParams={searchParams} />
           </div>
 
           {/* Grid */}
@@ -213,27 +213,21 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   );
 }
 
-function SortSelect({ currentSort }: { currentSort?: string }) {
+function SortSelect({ 
+  currentSort, 
+  searchParams 
+}: { 
+  currentSort?: string;
+  searchParams: Record<string, string | undefined>;
+}) {
   return (
-    <form method="get" className="flex items-center gap-2">
-      <label className="text-xs text-muted uppercase tracking-wider">Sort:</label>
-      <select
-        name="sort"
-        defaultValue={currentSort || "newest"}
-        onChange={(e) => {
-          // Client navigation would be handled by a client component in real app
-        }}
-        className="text-sm border border-sand bg-white px-3 py-2 focus:outline-none focus:border-charcoal"
-      >
-        <option value="newest">Newest</option>
-        <option value="price_asc">Price: Low to High</option>
-        <option value="price_desc">Price: High to Low</option>
-        <option value="popular">Most Popular</option>
-      </select>
-      <button type="submit" className="btn-ghost text-xs">Apply</button>
-    </form>
+    <Suspense fallback={<div className="h-10 w-32 bg-sand animate-pulse" />}>
+      <SortSelectClient currentSort={currentSort} searchParams={searchParams} />
+    </Suspense>
   );
 }
+
+import { SortSelectClient } from "@/components/product/SortSelectClient";
 
 function PaginationLink({
   page,
