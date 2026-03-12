@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/account/designs/page.tsx
 // Customer's custom print designs history
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 // src/app/admin/dashboard/page.tsx
 // Admin dashboard with stats and recent orders
 
