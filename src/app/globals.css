@@ -1,0 +1,171 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────────────────── */
+:root {
+  --color-cream: #faf7f2;
+  --color-sand: #e8dfd0;
+  --color-charcoal: #1c1c1c;
+  --color-muted: #6b6b6b;
+  --color-brand: #c97c3a;
+  --color-brand-dark: #994f25;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+}
+
+/* ─── BASE RESETS ────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ─── CUSTOM SCROLLBAR ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sand);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* ─── COMPONENT UTILITIES ────────────────────────────────────────────────────── */
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-charcoal text-cream font-body font-medium text-sm tracking-wide transition-all duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border border-charcoal text-charcoal font-body font-medium text-sm tracking-wide transition-all duration-200 hover:bg-charcoal hover:text-cream focus:outline-none focus:ring-2 focus:ring-charcoal focus:ring-offset-2 disabled:opacity-50;
+  }
+
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-600 text-white font-body font-medium text-sm tracking-wide transition-all duration-200 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-charcoal font-body font-medium text-sm transition-all duration-200 hover:text-brand-600 focus:outline-none;
+  }
+
+  /* Form elements */
+  .input-field {
+    @apply w-full px-4 py-3 border border-sand bg-white text-charcoal placeholder:text-muted font-body text-sm transition-all duration-200 focus:outline-none focus:border-charcoal focus:ring-1 focus:ring-charcoal;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-muted uppercase tracking-wider mb-1.5;
+  }
+
+  .error-message {
+    @apply text-xs text-red-600 mt-1;
+  }
+
+  /* Section headings */
+  .section-title {
+    @apply font-display text-4xl md:text-5xl font-light text-charcoal leading-tight;
+  }
+
+  .section-subtitle {
+    @apply font-body text-muted text-sm tracking-widest uppercase;
+  }
+
+  /* Product card */
+  .product-card {
+    @apply relative bg-white overflow-hidden transition-all duration-300 hover:shadow-lg;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-shimmer-gradient bg-[length:200%_100%] animate-shimmer;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-sand my-6;
+  }
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .animate-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+}
+
+/* ─── HERO SECTION STYLES ─────────────────────────────────────────────────────── */
+.hero-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(28, 28, 28, 0.7) 0%,
+    rgba(28, 28, 28, 0.3) 60%,
+    transparent 100%
+  );
+}
+
+/* ─── PRODUCT IMAGE ZOOM ─────────────────────────────────────────────────────── */
+.product-image-zoom {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.product-image-zoom:hover {
+  transform: scale(1.04);
+}
+
+/* ─── SIZE SELECTOR ──────────────────────────────────────────────────────────── */
+.size-option {
+  @apply relative w-10 h-10 flex items-center justify-center text-xs border border-sand text-charcoal cursor-pointer transition-all duration-150 hover:border-charcoal;
+}
+.size-option.selected {
+  @apply border-charcoal bg-charcoal text-cream;
+}
+.size-option.out-of-stock {
+  @apply opacity-40 cursor-not-allowed line-through;
+}
+
+/* ─── STAR RATING ────────────────────────────────────────────────────────────── */
+.star-filled {
+  color: #f59e0b;
+}
+.star-empty {
+  color: #d1d5db;
+}
+
+/* ─── MPESA COLORS ───────────────────────────────────────────────────────────── */
+.mpesa-green {
+  color: #4caf50;
+}
+.mpesa-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 border border-green-200 text-green-800 text-xs font-medium;
+}
