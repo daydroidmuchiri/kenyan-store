@@ -32,7 +32,9 @@ const saveDesignSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const user = session?.user as any;
+    
+    if (!user?.id) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 }
@@ -71,7 +73,7 @@ export async function POST(req: NextRequest) {
     // Save design to DB
     const design = await prisma.customDesign.create({
       data: {
-        userId: session.user.id,
+        userId: user.id,
         printableProductId: data.printableProductId,
         originalFileUrl: data.originalFileUrl,
         originalPublicId: data.originalPublicId,
@@ -110,12 +112,14 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const user = session?.user as any;
+    
+    if (!user?.id) {
       return NextResponse.json({ error: "Authentication required" }, { status: 401 });
     }
 
     const designs = await prisma.customDesign.findMany({
-      where: { userId: session.user.id },
+      where: { userId: user.id },
       orderBy: { createdAt: "desc" },
       include: {
         printableProduct: { select: { name: true, slug: true } },
