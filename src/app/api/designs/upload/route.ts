@@ -8,7 +8,9 @@ import { authOptions } from "@/lib/auth/auth.config";
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    const user = session?.user as any;
+    
+    if (!user?.id) {
       return NextResponse.json({ error: "Authentication required" }, { status: 401 });
     }
 
@@ -50,11 +52,11 @@ export async function POST(req: NextRequest) {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("file", file);
     cloudinaryFormData.append("upload_preset", uploadPreset);
-    cloudinaryFormData.append("folder", `kweli/designs/${session.user?.id}`);
+    cloudinaryFormData.append("folder", `kweli/designs/${user.id}`);
 
     // Add timestamp + signature for signed upload
     const timestamp = Math.round(Date.now() / 1000);
-    const folder = `kweli/designs/${session.user?.id}`;
+    const folder = `kweli/designs/${user.id}`;
     
     // Build signature string
     const signatureStr = `folder=${folder}&timestamp=${timestamp}&upload_preset=${uploadPreset}${apiSecret}`;
@@ -78,7 +80,7 @@ export async function POST(req: NextRequest) {
       // Fallback: return a placeholder for development without Cloudinary configured
       if (process.env.NODE_ENV === "development") {
         return NextResponse.json({
-          secure_url: URL.createObjectURL ? null : "https://via.placeholder.com/500",
+          secure_url: "https://via.placeholder.com/500",
           public_id: `dev-${Date.now()}`,
         });
       }

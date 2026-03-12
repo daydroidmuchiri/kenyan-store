@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     const data = createOrderSchema.parse(body);
 
     // For guests, require email; for logged-in users, use their ID
-    let userId = session?.user?.id;
+    let userId = (session?.user as any)?.id;
 
     if (!userId) {
       // Find or create guest user by email
