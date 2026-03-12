@@ -1,4 +1,5 @@
 // src/app/api/payments/mpesa/initiate/route.ts
+export const dynamic = "force-dynamic";
 // Initiate M-Pesa STK Push
 
 import { NextRequest, NextResponse } from "next/server";

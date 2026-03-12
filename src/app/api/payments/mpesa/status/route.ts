@@ -1,4 +1,5 @@
 // src/app/api/payments/mpesa/status/route.ts
+export const dynamic = "force-dynamic";
 // Poll M-Pesa payment status
 
 import { NextRequest, NextResponse } from "next/server";
