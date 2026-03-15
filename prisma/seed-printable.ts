@@ -6,28 +6,26 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const COMMON_COLORS = [
-  { name: "White", hex: "#ffffff", mockupUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop" },
-  { name: "Black", hex: "#1a1a1a", mockupUrl: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=500&h=600&fit=crop" },
-  { name: "Navy Blue", hex: "#1e3a5f", mockupUrl: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500&h=600&fit=crop" },
-  { name: "Forest Green", hex: "#2d5a27", mockupUrl: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&h=600&fit=crop" },
-  { name: "Sand", hex: "#c2a98b", mockupUrl: "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500&h=600&fit=crop" },
+  { name: "White", hex: "#ffffff", mockupUrl: "placeholder" },
+  { name: "Black", hex: "#1a1a1a", mockupUrl: "placeholder" },
+  { name: "Navy Blue", hex: "#1e3a5f", mockupUrl: "placeholder" },
+  { name: "Forest Green", hex: "#2d5a27", mockupUrl: "placeholder" },
+  { name: "Sand", hex: "#c2a98b", mockupUrl: "placeholder" },
+  { name: "Red", hex: "#d32f2f", mockupUrl: "placeholder" },
 ];
 
 const PRINTABLE_PRODUCTS = [
   {
     name: "Classic T-Shirt",
     slug: "classic-tshirt",
-    description: "Premium 100% cotton t-shirt, 200gsm. Comfortable, durable, and ideal for custom prints. Available in 5 colors.",
-    basePrice: 1200,
-    printSurcharge: 800,
-    // Using placeholder mockup — in production, use your actual garment photos
-    mockupImageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=600&fit=crop",
-    // Print area as % of the 500×600 canvas
-    // Chest area of a t-shirt is roughly: x=30%, y=25%, w=40%, h=35%
-    printAreaX: 28,
-    printAreaY: 22,
-    printAreaWidth: 44,
-    printAreaHeight: 38,
+    description: "Premium 100% cotton t-shirt, 200gsm. Comfortable, durable, and ideal for custom prints.",
+    basePrice: 1500,
+    printSurcharge: 500,
+    mockupImageUrl: "/placeholder-tshirt.png", // Will be rendered by SVG
+    printAreaX: 30,
+    printAreaY: 25,
+    printAreaWidth: 40,
+    printAreaHeight: 35,
     availableColors: COMMON_COLORS,
     availableSizes: ["XS", "S", "M", "L", "XL", "XXL"],
   },
@@ -36,54 +34,75 @@ const PRINTABLE_PRODUCTS = [
     slug: "premium-hoodie",
     description: "Heavy-weight 300gsm fleece hoodie. Warm, soft, and built to last. Perfect for bold custom artwork.",
     basePrice: 2500,
-    printSurcharge: 1000,
-    mockupImageUrl: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&h=600&fit=crop",
-    printAreaX: 30,
-    printAreaY: 28,
-    printAreaWidth: 40,
-    printAreaHeight: 32,
+    printSurcharge: 600,
+    mockupImageUrl: "/placeholder-hoodie.png",
+    printAreaX: 33,
+    printAreaY: 36,
+    printAreaWidth: 33,
+    printAreaHeight: 25,
     availableColors: [
-      { name: "Black", hex: "#1a1a1a", mockupUrl: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&h=600&fit=crop" },
-      { name: "Charcoal", hex: "#36454f", mockupUrl: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&h=600&fit=crop" },
-      { name: "White", hex: "#ffffff", mockupUrl: "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=500&h=600&fit=crop" },
-      { name: "Maroon", hex: "#800000", mockupUrl: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&h=600&fit=crop" },
+      { name: "White", hex: "#ffffff", mockupUrl: "placeholder" },
+      { name: "Black", hex: "#1a1a1a", mockupUrl: "placeholder" },
+      { name: "Charcoal", hex: "#36454f", mockupUrl: "placeholder" },
+      { name: "Burgundy", hex: "#800020", mockupUrl: "placeholder" },
     ],
     availableSizes: ["S", "M", "L", "XL", "XXL"],
-  },
-  {
-    name: "Canvas Tote Bag",
-    slug: "canvas-tote",
-    description: "Natural cotton canvas tote bag with large print area. Eco-friendly, reusable, and stylish.",
-    basePrice: 800,
-    printSurcharge: 600,
-    mockupImageUrl: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop",
-    printAreaX: 22,
-    printAreaY: 20,
-    printAreaWidth: 56,
-    printAreaHeight: 50,
-    availableColors: [
-      { name: "Natural", hex: "#e8d5b7", mockupUrl: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop" },
-      { name: "Black", hex: "#1a1a1a", mockupUrl: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=600&fit=crop" },
-    ],
-    availableSizes: ["ONE SIZE"],
   },
   {
     name: "Polo Shirt",
     slug: "polo-shirt",
     description: "Smart piqué polo shirt. Professional and versatile — great for branded team wear or personal designs.",
     basePrice: 1800,
-    printSurcharge: 700,
-    mockupImageUrl: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500&h=600&fit=crop",
-    printAreaX: 35,
-    printAreaY: 20,
-    printAreaWidth: 30,
-    printAreaHeight: 25,
+    printSurcharge: 500,
+    mockupImageUrl: "/placeholder-polo.png",
+    printAreaX: 33,
+    printAreaY: 33,
+    printAreaWidth: 33,
+    printAreaHeight: 30,
     availableColors: [
-      { name: "White", hex: "#ffffff", mockupUrl: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500&h=600&fit=crop" },
-      { name: "Navy", hex: "#1e3a5f", mockupUrl: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500&h=600&fit=crop" },
-      { name: "Black", hex: "#1a1a1a", mockupUrl: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500&h=600&fit=crop" },
+      { name: "White", hex: "#ffffff", mockupUrl: "placeholder" },
+      { name: "Navy", hex: "#1e3a5f", mockupUrl: "placeholder" },
+      { name: "Black", hex: "#1a1a1a", mockupUrl: "placeholder" },
+      { name: "Grey", hex: "#808080", mockupUrl: "placeholder" },
     ],
     availableSizes: ["S", "M", "L", "XL", "XXL"],
+  },
+  {
+    name: "Cargo Pants",
+    slug: "cargo-pants",
+    description: "Durable cotton twill cargo pants with multiple pockets. Print available on the lower left leg.",
+    basePrice: 3000,
+    printSurcharge: 600,
+    mockupImageUrl: "/placeholder-cargo.png",
+    printAreaX: 31,
+    printAreaY: 14,
+    printAreaWidth: 37,
+    printAreaHeight: 16,
+    availableColors: [
+      { name: "Black", hex: "#1a1a1a", mockupUrl: "placeholder" },
+      { name: "Khaki", hex: "#c3b091", mockupUrl: "placeholder" },
+      { name: "Olive", hex: "#4b5320", mockupUrl: "placeholder" },
+      { name: "Navy", hex: "#1e3a5f", mockupUrl: "placeholder" },
+    ],
+    availableSizes: ["28", "30", "32", "34", "36", "38"],
+  },
+  {
+    name: "Canvas Tote Bag",
+    slug: "canvas-tote",
+    description: "Natural cotton canvas tote bag with large print area. Eco-friendly, reusable, and stylish.",
+    basePrice: 800,
+    printSurcharge: 400,
+    mockupImageUrl: "/placeholder-tote.png",
+    printAreaX: 27,
+    printAreaY: 32,
+    printAreaWidth: 46,
+    printAreaHeight: 38,
+    availableColors: [
+      { name: "Natural", hex: "#e8d5b7", mockupUrl: "placeholder" },
+      { name: "Black", hex: "#1a1a1a", mockupUrl: "placeholder" },
+      { name: "Navy", hex: "#1e3a5f", mockupUrl: "placeholder" },
+    ],
+    availableSizes: ["ONE SIZE"],
   },
 ];
 
@@ -96,7 +115,23 @@ async function main() {
     });
 
     if (existing) {
-      console.log(`⏩ Skipping existing: ${p.name}`);
+      console.log(`⏩ Updating existing: ${p.name}`);
+      await prisma.printableProduct.update({
+        where: { slug: p.slug },
+        data: {
+          name: p.name,
+          description: p.description,
+          basePrice: p.basePrice,
+          printSurcharge: p.printSurcharge,
+          mockupImageUrl: p.mockupImageUrl,
+          printAreaX: p.printAreaX,
+          printAreaY: p.printAreaY,
+          printAreaWidth: p.printAreaWidth,
+          printAreaHeight: p.printAreaHeight,
+          availableColors: p.availableColors,
+          availableSizes: p.availableSizes,
+        },
+      });
       continue;
     }
 
