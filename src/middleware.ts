@@ -34,6 +34,10 @@ export default withAuth(
           pathname.startsWith("/about") ||
           pathname.startsWith("/contact") ||
           pathname.startsWith("/delivery") ||
+          pathname.startsWith("/terms") ||
+          pathname.startsWith("/privacy") ||
+          pathname.startsWith("/forgot-password") ||
+          pathname.startsWith("/custom-print") ||
           pathname.startsWith("/login") ||
           pathname.startsWith("/register")
         ) {

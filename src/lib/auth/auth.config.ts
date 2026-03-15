@@ -7,10 +7,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/db/prisma";
+import type { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
-  // @ts-ignore - PrismaAdapter type mismatch between auth versions
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
 
   session: {
     strategy: "jwt",
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
+          return null;
         }
 
         const user = await prisma.user.findUnique({
@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.passwordHash) {
-          throw new Error("Invalid email or password");
+          return null;
         }
 
         const isValid = await bcrypt.compare(
@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isValid) {
-          throw new Error("Invalid email or password");
+          return null;
         }
 
         return {
@@ -75,10 +75,10 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as any).role;
+        token.role = user.role;
       }
 
-      // Handle session updates
+      // Handle session updates (e.g. profile edit)
       if (trigger === "update" && session) {
         token.name = session.name;
       }
@@ -88,8 +88,8 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).id = token.id as string;
-        (session.user as any).role = token.role as string;
+        session.user.id = token.id;
+        session.user.role = token.role;
       }
       return session;
     },
