@@ -71,6 +71,7 @@ export function DesignStudioWrapper({ product }: Props) {
   const colors = product.availableColors as GarmentColor[];
   const [selectedColor, setSelectedColor] = useState<GarmentColor>(colors[0] || { name: "White", hex: "#ffffff" });
   const [selectedSize, setSelectedSize] = useState<string>(product.availableSizes[2] || "M");
+  const [designFile, setDesignFile] = useState<File | null>(null);
   const [design, setDesign] = useState<DesignState>({
     imageUrl: null,
     scale: 80,
@@ -102,6 +103,7 @@ export function DesignStudioWrapper({ product }: Props) {
 
     const reader = new FileReader();
     reader.onload = (ev) => {
+      setDesignFile(file);
       setDesign((d) => ({ ...d, imageUrl: ev.target?.result as string }));
     };
     reader.readAsDataURL(file);
@@ -123,13 +125,35 @@ export function DesignStudioWrapper({ product }: Props) {
 
     setIsSubmitting(true);
     try {
-      // 1. Upload the image to Cloudinary via our existing API
-      const res = await fetch("/api/designs/upload", {
+      // 1. Upload the image to Cloudinary via our existing API using FormData
+      const formData = new FormData();
+      if (!designFile) throw new Error("Design file missing");
+      formData.append("file", designFile);
+      
+      const uploadRes = await fetch("/api/designs/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json();
+        throw new Error(err.error || "Failed to upload design image");
+      }
+
+      const uploadData = await uploadRes.json();
+
+      // 2. Save design record to DB via /api/designs
+      const saveRes = await fetch("/api/designs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           printableProductId: product.id,
-          imageDataUrl: design.imageUrl,
+          originalFileUrl: uploadData.secure_url,
+          originalPublicId: uploadData.public_id,
+          fileType: designFile.type.split("/")[1].replace("svg+xml", "svg") || "png",
+          fileSizeBytes: designFile.size,
+          imageWidth: uploadData.width || 0,
+          imageHeight: uploadData.height || 0,
           placementX: 50 + design.offsetX,
           placementY: 50 + design.offsetY,
           designScale: design.scale,
@@ -137,15 +161,16 @@ export function DesignStudioWrapper({ product }: Props) {
           selectedColor: selectedColor.name,
           selectedSize,
           garmentColorHex: selectedColor.hex,
+          qualityWarnings: [],
         }),
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to save design");
+      if (!saveRes.ok) {
+        const err = await saveRes.json();
+        throw new Error(err.error || "Failed to save design record");
       }
 
-      const { designId } = await res.json();
+      const { designId } = await saveRes.json();
       
       // 2. Add to cart
       addItem({

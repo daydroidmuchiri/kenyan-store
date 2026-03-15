@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { Palette, Upload, Eye, ShoppingBag, ArrowRight } from "lucide-react";
 import prisma from "@/lib/db/prisma";
 import { formatPrice } from "@/lib/utils";
+import { GARMENT_SVG_MAP, TShirtSVG } from "@/components/print/GarmentSVG";
 
 export const metadata: Metadata = {
   title: "Custom Print — Design Your Own | KWELI Fashion",
@@ -138,12 +139,18 @@ export default async function CustomPrintPage() {
                 >
                   {/* Mockup image */}
                   <div className="relative aspect-square overflow-hidden bg-sand">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={product.mockupImageUrl}
-                      alt={product.name}
-                      className="w-full h-full object-contain p-6 product-image-zoom"
-                    />
+                    {(() => {
+                      const GarmentComponent = Object.keys(GARMENT_SVG_MAP).includes(product.slug) 
+                        ? GARMENT_SVG_MAP[product.slug] 
+                        : TShirtSVG;
+                      const defaultColor = (colors.length > 0 ? colors[0].hex : "#ffffff");
+                      return (
+                        <GarmentComponent
+                          color={defaultColor}
+                          className="w-full h-full object-contain p-6 product-image-zoom transition-transform"
+                        />
+                      );
+                    })()}
                     <div className="absolute top-3 left-3">
                       <span className="badge bg-brand-600 text-white text-xs">
                         Custom Print
