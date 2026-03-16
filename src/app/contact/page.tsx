@@ -1,6 +1,7 @@
 // src/app/contact/page.tsx
 import type { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Us — BNs Fashion Wear",
@@ -21,42 +22,7 @@ export default function ContactPage() {
       <div className="grid sm:grid-cols-2 gap-10">
         {/* Contact form */}
         <div>
-          <form className="space-y-4">
-            <div>
-              <label className="label">Full Name</label>
-              <input type="text" className="input-field" placeholder="Jane Mwangi" required />
-            </div>
-            <div>
-              <label className="label">Email Address</label>
-              <input type="email" className="input-field" placeholder="jane@example.com" required />
-            </div>
-            <div>
-              <label className="label">Phone (optional)</label>
-              <input type="tel" className="input-field" placeholder="0712345678" />
-            </div>
-            <div>
-              <label className="label">Subject</label>
-              <select className="input-field">
-                <option>Order enquiry</option>
-                <option>Returns & exchanges</option>
-                <option>Product question</option>
-                <option>Wholesale / partnership</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="label">Message</label>
-              <textarea
-                className="input-field resize-none"
-                rows={5}
-                placeholder="How can we help you?"
-                required
-              />
-            </div>
-            <button type="submit" className="btn-primary w-full py-3.5">
-              Send Message
-            </button>
-          </form>
+          <ContactForm />
         </div>
 
         {/* Contact info */}
