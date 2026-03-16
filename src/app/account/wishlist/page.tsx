@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth/auth.config";
+import prisma from "@/lib/db/prisma";
+import { WishlistClient } from "./WishlistClient";
 
 export const metadata = {
   title: "My Wishlist | BNs Fashion Wear",
@@ -11,9 +13,37 @@ export const metadata = {
 export default async function WishlistPage() {
   const session = await getServerSession(authOptions);
   
-  if (!session?.user) {
+  if (!session?.user?.email) {
     redirect("/login?callbackUrl=/account/wishlist");
   }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const wishlistItems = await prisma.wishlistItem.findMany({
+    where: { userId: user.id },
+    include: {
+      product: {
+        include: {
+          images: {
+            orderBy: { position: "asc" },
+            take: 2,
+          },
+          category: true,
+          variants: true,
+          reviews: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const products = wishlistItems.map(item => item.product);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
@@ -23,18 +53,7 @@ export default async function WishlistPage() {
         </Link>
       </div>
       
-      <div className="bg-white border border-sand p-10 text-center">
-        <Heart size={48} className="mx-auto text-sand mb-4" />
-        <h1 className="font-display text-2xl font-light mb-2">
-          Your Wishlist
-        </h1>
-        <p className="text-muted mb-6">
-          The wishlist feature is coming soon! Keep an eye out for updates.
-        </p>
-        <Link href="/shop" className="btn-primary">
-          Continue Shopping
-        </Link>
-      </div>
+      <WishlistClient initialProducts={products} />
     </div>
   );
 }

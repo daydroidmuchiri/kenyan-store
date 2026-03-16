@@ -100,6 +100,7 @@ interface WishlistStore {
   removeItem: (productId: string) => void;
   hasItem: (productId: string) => boolean;
   toggle: (productId: string) => void;
+  setItems: (productIds: string[]) => void;
 }
 
 export const useWishlist = create<WishlistStore>()(
@@ -109,12 +110,26 @@ export const useWishlist = create<WishlistStore>()(
 
       addItem: (productId) => {
         if (!get().items.includes(productId)) {
+          // Optimistic update
           set({ items: [...get().items, productId] });
+          // Background sync
+          fetch("/api/wishlist", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId }),
+          }).catch(console.error);
         }
       },
 
       removeItem: (productId) => {
+        // Optimistic update
         set({ items: get().items.filter((id) => id !== productId) });
+        // Background sync
+        fetch("/api/wishlist", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productId }),
+        }).catch(console.error);
       },
 
       hasItem: (productId) => get().items.includes(productId),
@@ -126,6 +141,8 @@ export const useWishlist = create<WishlistStore>()(
           get().addItem(productId);
         }
       },
+
+      setItems: (productIds) => set({ items: productIds }),
     }),
     { name: "kfs-wishlist" }
   )
