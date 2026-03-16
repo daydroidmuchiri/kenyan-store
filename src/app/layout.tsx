@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "https://kenyafashionstore.co.ke"
   ),
   title: {
-    default: "KWELI | Premium African Fashion",
-    template: "%s | KWELI Fashion",
+    default: "BNs Fashion Wear | Premium African Fashion",
+    template: "%s | BNs Fashion Wear",
   },
   description:
     "Discover premium African-inspired fashion. Shop men's, women's and accessories with M-Pesa payment and fast delivery across Kenya.",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_KE",
-    siteName: "KWELI Fashion",
+    siteName: "BNs Fashion Wear",
   },
   twitter: {
     card: "summary_large_image",

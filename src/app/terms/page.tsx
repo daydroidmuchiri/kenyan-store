@@ -24,7 +24,7 @@ export default function TermsPage() {
           <section>
             <p className="text-xs uppercase tracking-widest text-muted mb-2">Last Updated: March 2025</p>
             <p>
-              Welcome to KWELI. These Terms of Service govern your use of our website and purchase of our products. By accessing or using our platform, you agree to be bound by these terms.
+              Welcome to BNs Fashion Wear. These Terms of Service govern your use of our website and purchase of our products. By accessing or using our platform, you agree to be bound by these terms.
             </p>
           </section>
 
@@ -59,20 +59,20 @@ export default function TermsPage() {
           <section>
             <h2 className="font-display text-2xl font-medium text-charcoal mb-4">5. Intellectual Property</h2>
             <p>
-              All content on this site, including images, text, and designs, is the property of KWELI or its content suppliers and is protected by intellectual property laws.
+              All content on this site, including images, text, and designs, is the property of BNs Fashion Wear or its content suppliers and is protected by intellectual property laws.
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-2xl font-medium text-charcoal mb-4">6. Limitation of Liability</h2>
             <p>
-              KWELI shall not be liable for any indirect, incidental, or consequential damages arising from the use of our website or products.
+              BNs Fashion Wear shall not be liable for any indirect, incidental, or consequential damages arising from the use of our website or products.
             </p>
           </section>
 
           <section className="pt-10 border-t border-sand">
             <p className="text-sm">
-              If you have any questions about these terms, please contact us at <a href="mailto:legal@kweli.co.ke" className="text-brand-600 hover:underline">legal@kweli.co.ke</a>.
+              If you have any questions about these terms, please contact us at <a href="mailto:legal@BNs Fashion Wear.co.ke" className="text-brand-600 hover:underline">legal@BNs Fashion Wear.co.ke</a>.
             </p>
           </section>
         </div>

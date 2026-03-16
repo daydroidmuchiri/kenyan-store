@@ -136,7 +136,7 @@ export default async function AdminDashboard() {
             href="/"
             className="font-display text-xl font-semibold tracking-widest"
           >
-            KWELI
+            BNs Fashion Wear
           </Link>
           <span className="text-white/30">|</span>
           <span className="text-sm text-white/70">Admin</span>

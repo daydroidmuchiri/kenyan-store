@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About KWELI — Premium African Fashion",
-  description: "Learn about KWELI's mission to bring premium African-inspired fashion to the modern Kenyan.",
+  title: "About BNs Fashion Wear — Premium African Fashion",
+  description: "Learn about BNs Fashion Wear's mission to bring premium African-inspired fashion to the modern Kenyan.",
 };
 
 export default function AboutPage() {
@@ -18,7 +18,7 @@ export default function AboutPage() {
           <em className="font-semibold italic text-brand-300">Africa&apos;s story.</em>
         </h1>
         <p className="text-white/60 max-w-xl mx-auto mt-6 text-base leading-relaxed">
-          KWELI — meaning &quot;truth&quot; in Swahili — was born from a simple belief: that African fashion
+          BNs Fashion Wear — meaning &quot;truth&quot; in Swahili — was born from a simple belief: that African fashion
           deserves a premium platform that celebrates its richness and connects it to the modern world.
         </p>
       </section>
@@ -33,7 +33,7 @@ export default function AboutPage() {
             </h2>
             <p className="text-muted leading-relaxed mb-4">
               We curate and create premium clothing that blends Africa&apos;s rich textile heritage
-              with contemporary design. Every piece at KWELI is selected for quality, craftsmanship,
+              with contemporary design. Every piece at BNs Fashion Wear is selected for quality, craftsmanship,
               and cultural resonance.
             </p>
             <p className="text-muted leading-relaxed">

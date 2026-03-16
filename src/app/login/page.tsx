@@ -151,7 +151,7 @@ export default function LoginPage() {
             href="/"
             className="font-display text-4xl font-semibold text-cream tracking-[0.2em]"
           >
-            KWELI
+            BNs Fashion Wear
           </Link>
           <p className="mt-4 text-white/60 text-sm leading-relaxed">
             Premium African-inspired fashion for the modern Kenyan.
@@ -179,7 +179,7 @@ export default function LoginPage() {
               href="/"
               className="font-display text-3xl font-semibold tracking-[0.2em]"
             >
-              KWELI
+              BNs Fashion Wear
             </Link>
           </div>
 

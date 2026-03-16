@@ -10,7 +10,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "KWELI | Premium African Fashion — Nairobi, Kenya",
+  title: "BNs Fashion Wear | Premium African Fashion — Nairobi, Kenya",
   description:
     "Discover handpicked premium fashion for the modern Kenyan. Fast delivery, M-Pesa payment, and hassle-free returns.",
 };
@@ -349,7 +349,7 @@ export default async function HomePage() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14 text-center">
           <p className="section-subtitle text-brand-600 mb-2">Stay Updated</p>
           <h2 className="font-display text-3xl sm:text-4xl font-medium text-charcoal mb-3">
-            Join the KWELI Community
+            Join the BNs Fashion Wear Community
           </h2>
           <p className="text-muted text-sm mb-6">
             Get early access to new collections, exclusive offers, and style

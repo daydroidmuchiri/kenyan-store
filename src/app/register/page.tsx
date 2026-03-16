@@ -54,7 +54,7 @@ export default function RegisterPage() {
         toast.error("Account created! Please sign in.");
         router.push("/login");
       } else {
-        toast.success("Welcome to KWELI!");
+        toast.success("Welcome to BNs Fashion Wear!");
         router.push("/");
       }
     } catch {
@@ -67,7 +67,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <Link href="/" className="font-display text-3xl font-semibold tracking-[0.2em]">
-            KWELI
+            BNs Fashion Wear
           </Link>
         </div>
 

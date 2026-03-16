@@ -10,7 +10,7 @@ import { formatPrice } from "@/lib/utils";
 import { GARMENT_SVG_MAP, TShirtSVG } from "@/components/print/GarmentSVG";
 
 export const metadata: Metadata = {
-  title: "Custom Print — Design Your Own | KWELI Fashion",
+  title: "Custom Print — Design Your Own | BNs Fashion Wear",
   description:
     "Upload your design and we'll print it on a premium T-shirt, hoodie, or tote. Pay with M-Pesa. Delivered across Kenya.",
 };

@@ -3,7 +3,7 @@
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "254700000000";
 const MESSAGE = encodeURIComponent(
-  "Hi KWELI! I need help with my order. 👋"
+  "Hi BNs Fashion Wear! I need help with my order. 👋"
 );
 
 export function WhatsAppButton() {

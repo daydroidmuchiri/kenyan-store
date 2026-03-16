@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Truck, RefreshCw, MapPin, Clock, Package, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Delivery & Returns — KWELI Fashion",
+  title: "Delivery & Returns — BNs Fashion Wear",
   description: "Learn about our delivery options across Kenya, estimated times, fees, and our 30-day return policy.",
 };
 
@@ -76,7 +76,7 @@ export default function DeliveryPage() {
             { step: "2", title: "Order Confirmed", desc: "You'll receive an SMS and email confirmation with your order number." },
             { step: "3", title: "We Prepare Your Order", desc: "Our team carefully picks and packages your items within 24 hours." },
             { step: "4", title: "Out for Delivery", desc: "You'll receive a notification when your order is on its way." },
-            { step: "5", title: "Delivered!", desc: "Receive your order and enjoy your new KWELI pieces." },
+            { step: "5", title: "Delivered!", desc: "Receive your order and enjoy your new BNs Fashion Wear pieces." },
           ].map((item) => (
             <div key={item.step} className="flex gap-4 items-start">
               <div className="w-8 h-8 bg-charcoal text-cream flex items-center justify-center text-sm font-bold shrink-0">
@@ -103,7 +103,7 @@ export default function DeliveryPage() {
             30-Day Free Returns
           </p>
           <p className="text-muted text-sm leading-relaxed mb-4">
-            We want you to love every KWELI piece. If you&apos;re not completely satisfied,
+            We want you to love every BNs Fashion Wear piece. If you&apos;re not completely satisfied,
             we accept returns within 30 days of delivery — no questions asked.
           </p>
 
@@ -190,7 +190,7 @@ export default function DeliveryPage() {
           >
             WhatsApp Us
           </a>
-          <a href="mailto:hello@kweli.co.ke" className="btn-secondary border-white text-white hover:bg-white hover:text-charcoal">
+          <a href="mailto:hello@BNs Fashion Wear.co.ke" className="btn-secondary border-white text-white hover:bg-white hover:text-charcoal">
             Email Us
           </a>
         </div>

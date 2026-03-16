@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kweli.co.ke";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://BNs Fashion Wear.co.ke";
 
   return {
     rules: [

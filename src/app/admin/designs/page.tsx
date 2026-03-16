@@ -90,7 +90,7 @@ export default async function AdminDesignsPage({
       <header className="bg-charcoal text-cream px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/" className="font-display text-xl font-semibold tracking-widest">
-            KWELI
+            BNs Fashion Wear
           </Link>
           <span className="text-white/30">|</span>
           <span className="text-sm text-white/70">Admin · Custom Prints</span>

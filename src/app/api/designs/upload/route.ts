@@ -53,11 +53,11 @@ export async function POST(req: NextRequest) {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("file", file);
     cloudinaryFormData.append("upload_preset", uploadPreset);
-    cloudinaryFormData.append("folder", `kweli/designs/${user.id}`);
+    cloudinaryFormData.append("folder", `BNs Fashion Wear/designs/${user.id}`);
 
     // Add timestamp + signature for signed upload
     const timestamp = Math.round(Date.now() / 1000);
-    const folder = `kweli/designs/${user.id}`;
+    const folder = `BNs Fashion Wear/designs/${user.id}`;
     
     // Build signature string
     const signatureStr = `folder=${folder}&timestamp=${timestamp}&upload_preset=${uploadPreset}${apiSecret}`;

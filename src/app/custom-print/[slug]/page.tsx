@@ -24,7 +24,7 @@ export async function generateMetadata({
   if (!product) return { title: "Product Not Found" };
 
   return {
-    title: `Design Your Own ${product.name} — KWELI Custom Print`,
+    title: `Design Your Own ${product.name} — BNs Fashion Wear Custom Print`,
     description: `Upload your artwork and create a custom ${product.name}. Pay with M-Pesa. Shipped across Kenya.`,
   };
 }

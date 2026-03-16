@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           <section>
             <p className="text-xs uppercase tracking-widest text-muted mb-2">Last Updated: March 2025</p>
             <p>
-              At KWELI, we value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and share your data when you visit our store.
+              At BNs Fashion Wear, we value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and share your data when you visit our store.
             </p>
           </section>
 
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
 
           <section className="pt-10 border-t border-sand">
             <p className="text-sm">
-              For more information about our privacy practices, please contact us at <a href="mailto:privacy@kweli.co.ke" className="text-brand-600 hover:underline">privacy@kweli.co.ke</a>.
+              For more information about our privacy practices, please contact us at <a href="mailto:privacy@BNs Fashion Wear.co.ke" className="text-brand-600 hover:underline">privacy@BNs Fashion Wear.co.ke</a>.
             </p>
           </section>
         </div>

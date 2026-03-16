@@ -59,7 +59,7 @@ export default async function ConfirmationPage({
           Order Confirmed!
         </h1>
         <p className="text-muted">
-          Thank you for shopping with KWELI. Your order has been received.
+          Thank you for shopping with BNs Fashion Wear. Your order has been received.
         </p>
       </div>
 

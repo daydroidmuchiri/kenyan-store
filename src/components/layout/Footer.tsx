@@ -52,7 +52,7 @@ export function Footer() {
               href="/"
               className="font-display text-3xl font-semibold tracking-[0.2em]"
             >
-              KWELI
+              BNs Fashion Wear
             </Link>
             <p className="mt-4 text-sm text-white/60 leading-relaxed">
               Premium African-inspired fashion, made for the modern Kenyan.
@@ -112,7 +112,7 @@ export function Footer() {
                 { label: "Returns Policy", href: "/delivery#returns" },
                 { label: "Size Guide", href: "/delivery#sizes" },
                 { label: "Contact Us", href: "/contact" },
-                { label: "About KWELI", href: "/about" },
+                { label: "About BNs Fashion Wear", href: "/about" },
               ].map((item) => (
                 <li key={item.label}>
                   <Link
@@ -152,10 +152,10 @@ export function Footer() {
               <li className="flex items-center gap-2.5">
                 <Mail size={15} className="text-brand-400 shrink-0" />
                 <a
-                  href="mailto:hello@kweli.co.ke"
+                  href="mailto:hello@BNs Fashion Wear.co.ke"
                   className="text-sm text-white/70 hover:text-white"
                 >
-                  hello@kweli.co.ke
+                  hello@BNs Fashion Wear.co.ke
                 </a>
               </li>
             </ul>
@@ -175,7 +175,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} KWELI Fashion. All rights reserved.
+            © {new Date().getFullYear()} BNs Fashion Wear. All rights reserved.
           </p>
           <div className="flex gap-4">
             <Link

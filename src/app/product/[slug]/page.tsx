@@ -54,7 +54,7 @@ export async function generateMetadata({
   const image = product.images[0]?.url;
 
   return {
-    title: `${product.name} — KWELI Fashion`,
+    title: `${product.name} — BNs Fashion Wear`,
     description: product.description.slice(0, 160),
     openGraph: {
       title: product.name,
@@ -93,7 +93,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     name: product.name,
     description: product.description,
     image: product.images.map((img) => img.url),
-    brand: { "@type": "Brand", name: product.brand || "KWELI" },
+    brand: { "@type": "Brand", name: product.brand || "BNs Fashion Wear" },
     offers: {
       "@type": "Offer",
       priceCurrency: "KES",
@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         product.variants.some((v) => v.stock > 0)
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
-      seller: { "@type": "Organization", name: "KWELI Fashion" },
+      seller: { "@type": "Organization", name: "BNs Fashion Wear" },
     },
     aggregateRating:
       product.reviews.length > 0

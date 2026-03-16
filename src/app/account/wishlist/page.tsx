@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth/auth.config";
 
 export const metadata = {
-  title: "My Wishlist | KWELI Fashion",
+  title: "My Wishlist | BNs Fashion Wear",
 };
 
 export default async function WishlistPage() {

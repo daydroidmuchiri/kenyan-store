@@ -91,7 +91,7 @@ export function Navbar() {
               href="/"
               className="font-display text-2xl md:text-3xl font-semibold tracking-[0.15em] text-charcoal uppercase"
             >
-              KWELI
+              BNs Fashion Wear
             </Link>
 
             {/* Desktop Nav Links */}

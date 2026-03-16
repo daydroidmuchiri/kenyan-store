@@ -10,7 +10,7 @@ import { ProductFilters } from "@/components/product/ProductFilters";
 import { Prisma } from "@prisma/client";
 
 export const metadata: Metadata = {
-  title: "Shop All — KWELI Fashion",
+  title: "Shop All — BNs Fashion Wear",
   description: "Browse our full collection of premium African-inspired fashion. Filter by category, size and price.",
 };
 

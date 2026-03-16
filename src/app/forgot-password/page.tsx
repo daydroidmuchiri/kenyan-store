@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
             href="/"
             className="font-display text-4xl font-semibold tracking-[0.2em] text-charcoal uppercase"
           >
-            KWELI
+            BNs Fashion Wear
           </Link>
         </div>
 

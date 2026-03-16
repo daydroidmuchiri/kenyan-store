@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us — KWELI Fashion",
-  description: "Get in touch with the KWELI team. WhatsApp, email or visit our Westlands showroom.",
+  title: "Contact Us — BNs Fashion Wear",
+  description: "Get in touch with the BNs Fashion Wear team. WhatsApp, email or visit our Westlands showroom.",
 };
 
 export default function ContactPage() {
@@ -76,8 +76,8 @@ export default function ContactPage() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "hello@kweli.co.ke",
-                  href: "mailto:hello@kweli.co.ke",
+                  value: "hello@BNs Fashion Wear.co.ke",
+                  href: "mailto:hello@BNs Fashion Wear.co.ke",
                 },
                 {
                   icon: MapPin,
@@ -117,7 +117,7 @@ export default function ContactPage() {
 
           {/* WhatsApp CTA */}
           <a
-            href="https://wa.me/254700000000?text=Hi KWELI! I need help."
+            href="https://wa.me/254700000000?text=Hi BNs Fashion Wear! I need help."
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 bg-[#25D366] text-white p-5 hover:brightness-95 transition-all"

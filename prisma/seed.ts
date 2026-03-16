@@ -12,11 +12,11 @@ async function main() {
   // ── ADMIN USER ──────────────────────────────────────────────────────────
   const adminPassword = await bcrypt.hash("Admin@123", 12);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@kweli.co.ke" },
+    where: { email: "admin@BNs Fashion Wear.co.ke" },
     update: {},
     create: {
-      email: "admin@kweli.co.ke",
-      name: "KWELI Admin",
+      email: "admin@BNs Fashion Wear.co.ke",
+      name: "BNs Fashion Wear Admin",
       passwordHash: adminPassword,
       role: "ADMIN",
     },
@@ -50,7 +50,7 @@ async function main() {
       price: 3500,
       comparePrice: 4500,
       categoryId: women.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "100% Cotton Ankara fabric",
       careInstructions: "Hand wash cold. Do not bleach. Iron on low heat.",
       isFeatured: true,
@@ -67,7 +67,7 @@ async function main() {
       price: 7500,
       comparePrice: null,
       categoryId: men.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "70% Linen, 30% Cotton",
       careInstructions: "Dry clean recommended. Iron on medium heat.",
       isFeatured: true,
@@ -84,7 +84,7 @@ async function main() {
       price: 1800,
       comparePrice: 2200,
       categoryId: accessories.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "Kitenge fabric with leather handles",
       isFeatured: true,
       images: [
@@ -99,7 +99,7 @@ async function main() {
       price: 2800,
       comparePrice: null,
       categoryId: men.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "100% Premium Cotton",
       careInstructions: "Machine wash cold. Tumble dry low.",
       isFeatured: true,
@@ -115,7 +115,7 @@ async function main() {
       price: 2200,
       comparePrice: 2800,
       categoryId: women.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "95% Polyester, 5% Spandex",
       careInstructions: "Machine wash cold on gentle cycle.",
       isFeatured: false,
@@ -131,7 +131,7 @@ async function main() {
       price: 3200,
       comparePrice: null,
       categoryId: men.id,
-      brand: "KWELI",
+      brand: "BNs Fashion Wear",
       material: "98% Cotton, 2% Elastane",
       careInstructions: "Machine wash cold. Hang dry.",
       isFeatured: false,
@@ -184,7 +184,7 @@ async function main() {
   console.log("\n🎉 Seeding complete!");
   console.log("─────────────────────────────────────────");
   console.log("Admin login:");
-  console.log("  Email:    admin@kweli.co.ke");
+  console.log("  Email:    admin@BNs Fashion Wear.co.ke");
   console.log("  Password: Admin@123");
   console.log("─────────────────────────────────────────");
 }
