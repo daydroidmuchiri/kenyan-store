@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 // Create order API — security-hardened version
+// Supports both Standard Products and Custom Prints
 
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
@@ -45,11 +46,16 @@ export async function POST(req: NextRequest) {
     const data = createOrderSchema.parse(body);
 
     // ──────────────────────────────────────────────────────────────────────────
-    // SECURITY: Resolve prices server-side — never trust client-submitted prices
+    // SPLIT ITEMS: Standard Products vs Custom Prints
+    // Custom Prints have a variantId prefixed with "custom-"
     // ──────────────────────────────────────────────────────────────────────────
-    const variantIds = data.items.map((i) => i.variantId);
+    const standardItems = data.items.filter((i) => !i.variantId.startsWith("custom-"));
+    const customItems = data.items.filter((i) => i.variantId.startsWith("custom-"));
+
+    // 1. Fetch Standard Variants
+    const standardVariantIds = standardItems.map((i) => i.variantId);
     const variants = await prisma.productVariant.findMany({
-      where: { id: { in: variantIds } },
+      where: { id: { in: standardVariantIds } },
       include: {
         product: {
           select: { id: true, price: true, name: true, images: { take: 1 } },
@@ -57,48 +63,66 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Map for fast lookup
     const variantMap = new Map(variants.map((v) => [v.id, v]));
 
-    // Verify all requested variants exist and belong to the right products
-    for (const item of data.items) {
-      const variant = variantMap.get(item.variantId);
-      if (!variant) {
-        return NextResponse.json(
-          { error: `Product variant not found: ${item.variantId}. Please refresh and try again.` },
-          { status: 400 }
-        );
-      }
-      if (variant.product.id !== item.productId) {
-        return NextResponse.json(
-          { error: `Product/variant mismatch detected. Please refresh and try again.` },
-          { status: 400 }
-        );
-      }
-    }
+    // 2. Fetch Custom Designs
+    // Extract the raw CUID design ID by stripping "custom-"
+    const customDesignIds = customItems.map((i) => i.variantId.replace("custom-", ""));
+    const customDesigns = await prisma.customDesign.findMany({
+      where: { id: { in: customDesignIds } },
+      include: { printableProduct: true },
+    });
 
-    // Compute totals server-side using DB prices
-    const deliveryFee = DELIVERY_FEES[data.deliveryType] ?? 0;
+    const customDesignMap = new Map(customDesigns.map((d) => [d.id, d]));
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // VALIDATION AND PRICE COMPUTATION
+    // ──────────────────────────────────────────────────────────────────────────
     let subtotal = 0;
-    const resolvedItems = data.items.map((item) => {
-      const variant = variantMap.get(item.variantId)!;
+    const deliveryFee = DELIVERY_FEES[data.deliveryType] ?? 0;
+
+    // Validate Standard Items
+    const resolvedStandardItems = standardItems.map((item) => {
+      const variant = variantMap.get(item.variantId);
+      if (!variant || variant.product.id !== item.productId) {
+        throw new Error(`Product variant mismatch: ${item.variantId}. Please refresh your cart.`);
+      }
       const unitPrice = Number(variant.product.price);
       subtotal += unitPrice * item.quantity;
       return {
-        productId: item.productId,
-        variantId: item.variantId,
-        quantity: item.quantity,
-        color: item.color,
+        ...item,
         price: unitPrice,
         productName: variant.product.name,
         productImage: variant.product.images[0]?.url ?? null,
         size: variant.size,
-        variantRef: variant,
+        variantRef: variant, // Kept to decrease stock later
       };
     });
+
+    // Validate Custom Items
+    const resolvedCustomItems = customItems.map((item) => {
+      const designId = item.variantId.replace("custom-", "");
+      const design = customDesignMap.get(designId);
+      if (!design || design.printableProductId !== item.productId) {
+        throw new Error(`Custom design not found: ${designId}. Please refresh your cart.`);
+      }
+      
+      // Compute Custom Print Price: Base Garment Price + Print Surcharge
+      const unitPrice =
+        Number(design.printableProduct.basePrice) +
+        Number(design.printableProduct.printSurcharge);
+        
+      subtotal += unitPrice * item.quantity;
+      return {
+        ...item,
+        designId: design.id,
+        price: unitPrice,
+      };
+    });
+
     const total = subtotal + deliveryFee;
 
-    // Resolve userId
+    // Resolve userId (Guest or Logged in)
     let userId = (session?.user as any)?.id;
     if (!userId) {
       let user = await prisma.user.findUnique({ where: { email: data.email } });
@@ -113,12 +137,12 @@ export async function POST(req: NextRequest) {
     const orderNumber = generateOrderNumber();
 
     // ──────────────────────────────────────────────────────────────────────────
-    // SECURITY: Stock check AND decrement happen atomically INSIDE transaction
-    // This eliminates the TOCTOU race condition.
+    // TRANSACTION: Atomic Stock Reservation + Order Creation
     // ──────────────────────────────────────────────────────────────────────────
     const order = await prisma.$transaction(async (tx) => {
-      // Atomic stock reservation: only succeeds if stock >= requested quantity
-      for (const item of resolvedItems) {
+      
+      // 1. Check and decrement stock for STANDARD items ONLY
+      for (const item of resolvedStandardItems) {
         const updated = await tx.productVariant.updateMany({
           where: {
             id: item.variantId,
@@ -128,14 +152,13 @@ export async function POST(req: NextRequest) {
         });
 
         if (updated.count === 0) {
-          // Either variant not found or insufficient stock — roll back entire tx
           throw new Error(
-            `Insufficient stock for size "${item.variantRef.size}". Please update your cart.`
+            `Insufficient stock for catalog item size "${item.size}". Please update your cart.`
           );
         }
       }
 
-      // Create the order with server-computed pricing
+      // 2. Create the Order Parent
       const newOrder = await tx.order.create({
         data: {
           orderNumber,
@@ -155,8 +178,10 @@ export async function POST(req: NextRequest) {
             street: data.street,
           },
           notes: data.notes,
+          
+          // 3. Attach Standard Order Items
           items: {
-            create: resolvedItems.map((item) => ({
+            create: resolvedStandardItems.map((item) => ({
               productId: item.productId,
               variantId: item.variantId,
               quantity: item.quantity,
@@ -167,6 +192,14 @@ export async function POST(req: NextRequest) {
               color: item.color,
             })),
           },
+          
+          // 4. Attach Custom Design Order Items
+          customOrderItems: {
+            create: resolvedCustomItems.map((item) => ({
+              designId: item.designId,
+              printStatus: "AWAITING_APPROVAL",
+            }))
+          }
         },
       });
 
@@ -186,8 +219,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    // Surface stock errors clearly to the client
-    if (error.message?.includes("Insufficient stock")) {
+    // Surface known errors (like Stock/Mismatch) clearly to the client
+    if (error.message?.includes("Please refresh") || error.message?.includes("stock")) {
       return NextResponse.json({ error: error.message }, { status: 409 });
     }
     return NextResponse.json(
