@@ -6,7 +6,8 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createProduct } from "./actions";
-import { Plus, Trash, Image as ImageIcon, Loader2 } from "lucide-react";
+import { AdminImageUploader } from "./AdminImageUploader";
+import { Plus, Trash, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 // Schema (matching server)
@@ -51,11 +52,6 @@ export function ProductForm({ categories }: { categories: any[] }) {
       images: [""],
       variants: [{ size: "ONE SIZE", stock: 10, sku: "" }],
     },
-  });
-
-  const { fields: imageFields, append: appendImage, remove: removeImage } = useFieldArray({
-    control,
-    name: "images" as never,
   });
 
   const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({
@@ -262,43 +258,14 @@ export function ProductForm({ categories }: { categories: any[] }) {
         {/* Right Column: Media & Extra Settings */}
         <div className="space-y-6">
           <div className="bg-white border border-sand p-6">
-            <h2 className="font-display text-lg font-medium mb-4 flex items-center gap-2">
-              <ImageIcon size={18} className="text-muted" /> Media
-            </h2>
-            <div className="space-y-4">
-              <p className="text-xs text-muted">Paste absolute image URLs (e.g. Unsplash or Cloudinary) for the product gallery. The first image will be the main thumbnail.</p>
-              
-              {imageFields.map((field, index) => (
-                <div key={field.id} className="flex gap-2">
-                  <div className="flex-1">
-                    <input
-                      {...register(`images.${index}` as never)}
-                      type="url"
-                      placeholder="https://images.unsplash.com/..."
-                      className="w-full px-3 py-2 text-sm border border-sand focus:outline-none focus:ring-1 focus:ring-brand-600 transition-colors"
-                    />
-                    {/* @ts-ignore - complex nested array error typing */}
-                    {errors.images?.[index] && <p className="text-red-500 text-xs mt-1">{errors.images[index]?.message}</p>}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    disabled={imageFields.length === 1}
-                    className="p-2 text-muted hover:text-red-600 disabled:opacity-30 self-start transition-colors border border-transparent hover:border-sand"
-                  >
-                    <Trash size={16} />
-                  </button>
-                </div>
-              ))}
-              
-              <button
-                type="button"
-                onClick={() => appendImage("")}
-                className="text-sm text-brand-600 font-medium flex items-center gap-1"
-              >
-                <Plus size={14} /> Add Image URL
-              </button>
-            </div>
+            <h2 className="font-display text-lg font-medium mb-4">Media</h2>
+            <AdminImageUploader
+              values={watch("images") ?? []}
+              onChange={(urls) => setValue("images", urls, { shouldValidate: true })}
+            />
+            {errors.images && typeof errors.images.message === "string" && (
+              <p className="text-red-500 text-xs mt-2">{errors.images.message}</p>
+            )}
           </div>
 
           <div className="bg-white border border-sand p-6">
