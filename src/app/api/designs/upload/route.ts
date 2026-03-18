@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
-    const uploadPreset = (formData.get("upload_preset") as string) || "kweli_designs";
+    const uploadPreset = (formData.get("upload_preset") as string) || "bns_designs";
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const allowedTypes = ["image/png", "image/jpeg", "image/svg+xml"];
     if (!allowedTypes.includes(file.type) && file.type !== "application/octet-stream") {
       // Allow octet-stream for preview blobs
-      if (uploadPreset !== "kweli_previews") {
+      if (uploadPreset !== "bns_previews") {
         return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
       }
     }
@@ -53,11 +53,11 @@ export async function POST(req: NextRequest) {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("file", file);
     cloudinaryFormData.append("upload_preset", uploadPreset);
-    cloudinaryFormData.append("folder", `BNs Fashion Wear/designs/${user.id}`);
+    cloudinaryFormData.append("folder", `BNs-Fashion-Wear/designs/${user.id}`);
 
     // Add timestamp + signature for signed upload
     const timestamp = Math.round(Date.now() / 1000);
-    const folder = `BNs Fashion Wear/designs/${user.id}`;
+    const folder = `BNs-Fashion-Wear/designs/${user.id}`;
     
     // Build signature string
     const signatureStr = `folder=${folder}&timestamp=${timestamp}&upload_preset=${uploadPreset}${apiSecret}`;

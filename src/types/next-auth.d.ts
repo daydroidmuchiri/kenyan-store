@@ -1,25 +1,26 @@
 // src/types/next-auth.d.ts
-// Augments NextAuth types so session.user.id and session.user.role are fully typed
+// SECURITY FIX #11: Extend NextAuth types so session.user.id and session.user.role
+// are strongly typed — eliminates unsafe `as any` casts throughout the codebase.
 
-import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
+import { DefaultSession, DefaultUser } from "next-auth";
 import { JWT, DefaultJWT } from "next-auth/jwt";
 
 declare module "next-auth" {
+  interface User extends DefaultUser {
+    role?: string;
+  }
+
   interface Session {
     user: {
       id: string;
       role: string;
     } & DefaultSession["user"];
   }
-
-  interface User extends DefaultUser {
-    role: string;
-  }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    id: string;
-    role: string;
+    id?: string;
+    role?: string;
   }
 }

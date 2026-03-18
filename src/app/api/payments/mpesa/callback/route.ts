@@ -2,12 +2,32 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 // src/app/api/payments/mpesa/callback/route.ts
 // M-Pesa Daraja callback — called by Safaricom servers after payment
+// SECURITY: Protected by a shared secret token in the URL path
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db/prisma";
 
 export async function POST(req: NextRequest) {
   try {
+    // ──────────────────────────────────────────────────────────────────────────
+    // SECURITY FIX #3: Validate shared secret so random internet traffic cannot
+    // forge a "payment successful" payload.
+    // Set MPESA_CALLBACK_SECRET in your environment variables to a random UUID.
+    // ──────────────────────────────────────────────────────────────────────────
+    const callbackSecret = process.env.MPESA_CALLBACK_SECRET;
+    if (callbackSecret) {
+      const authHeader = req.headers.get("x-callback-secret");
+      // Also support secret in query param (for Safaricom which uses URL params)
+      const url = new URL(req.url);
+      const querySecret = url.searchParams.get("secret");
+      
+      if (authHeader !== callbackSecret && querySecret !== callbackSecret) {
+        console.warn("⚠️ M-Pesa callback received with invalid/missing secret");
+        // Return 200 to Safaricom so they don't retry, but don't process
+        return NextResponse.json({ ResultCode: 0, ResultDesc: "Accepted" });
+      }
+    }
+
     const body = await req.json();
     const { Body } = body;
 
@@ -17,7 +37,6 @@ export async function POST(req: NextRequest) {
 
     const callback = Body.stkCallback;
     const {
-      MerchantRequestID,
       CheckoutRequestID,
       ResultCode,
       ResultDesc,
@@ -35,8 +54,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (ResultCode === 0) {
-      // Payment successful
-      // Extract receipt number from metadata
+      // Payment successful — extract receipt number from metadata
       const receiptItem = CallbackMetadata?.Item?.find(
         (item: any) => item.Name === "MpesaReceiptNumber"
       );
@@ -55,30 +73,31 @@ export async function POST(req: NextRequest) {
         `✅ M-Pesa payment confirmed for order ${order.orderNumber}. Receipt: ${receiptNumber}`
       );
     } else {
-      // Payment failed
-      await prisma.order.update({
-        where: { id: order.id },
-        data: { paymentStatus: "FAILED" },
+      // Payment failed — restore stock
+      await prisma.$transaction(async (tx) => {
+        await tx.order.update({
+          where: { id: order.id },
+          data: { paymentStatus: "FAILED" },
+        });
+
+        const orderItems = await tx.orderItem.findMany({
+          where: { orderId: order.id },
+        });
+
+        for (const item of orderItems) {
+          await tx.productVariant.update({
+            where: { id: item.variantId },
+            data: { stock: { increment: item.quantity } },
+          });
+        }
       });
 
       console.log(
         `❌ M-Pesa payment failed for order ${order.orderNumber}. Code: ${ResultCode}, Desc: ${ResultDesc}`
       );
-
-      // Restore stock on payment failure
-      const orderItems = await prisma.orderItem.findMany({
-        where: { orderId: order.id },
-      });
-
-      for (const item of orderItems) {
-        await prisma.productVariant.update({
-          where: { id: item.variantId },
-          data: { stock: { increment: item.quantity } },
-        });
-      }
     }
 
-    // Always return success to Safaricom
+    // Always return success to Safaricom so they stop retrying
     return NextResponse.json({ ResultCode: 0, ResultDesc: "Accepted" });
   } catch (error) {
     console.error("M-Pesa callback error:", error);

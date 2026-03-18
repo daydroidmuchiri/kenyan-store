@@ -2,12 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 
+// SECURITY FIX #5: Escape all HTML special characters before embedding into email body
+// Prevents stored-XSS via contact form submissions
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Valid email is required"),
-  phone: z.string().optional(),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(10, "Message is too short"),
+  name: z.string().min(2, "Name is required").max(100),
+  email: z.string().email("Valid email is required").max(254),
+  phone: z.string().max(20).optional(),
+  subject: z.string().min(1, "Subject is required").max(200),
+  message: z.string().min(10, "Message is too short").max(5000),
 });
 
 export async function POST(req: NextRequest) {
@@ -55,13 +66,13 @@ ${message}
 
     const htmlBody = `
       <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <p><strong>Phone:</strong> ${escapeHtml(phone || "Not provided")}</p>
+      <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
       <hr />
       <h3>Message:</h3>
-      <p style="white-space: pre-wrap;">${message}</p>
+      <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
     `;
 
     await transporter.sendMail({
