@@ -128,57 +128,8 @@ export default async function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Admin Nav */}
-      <header className="bg-charcoal text-cream px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            className="font-display text-xl font-semibold tracking-widest"
-          >
-            BNs Fashion Wear
-          </Link>
-          <span className="text-white/30">|</span>
-          <span className="text-sm text-white/70">Admin</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link href="/shop" className="text-sm text-white/70 hover:text-white">
-            View Store
-          </Link>
-          <span className="text-xs text-white/50">{user?.email}</span>
-        </div>
-      </header>
-
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-56 bg-white border-r border-sand min-h-screen p-4">
-          <nav className="space-y-1">
-            {[
-              { label: "Dashboard", href: "/admin/dashboard", active: true },
-              { label: "Products", href: "/admin/products" },
-              { label: "Orders", href: "/admin/orders" },
-              { label: "Custom Prints", href: "/admin/designs" },
-              { label: "Customers", href: "/admin/customers" },
-              { label: "Analytics", href: "/admin/analytics" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`block px-3 py-2.5 text-sm transition-colors ${
-                  item.active
-                    ? "bg-charcoal text-cream font-medium"
-                    : "text-charcoal hover:bg-sand"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </aside>
-
-        {/* Main content */}
-        <main className="flex-1 p-6">
-          <div className="flex items-center justify-between mb-6">
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="font-display text-3xl font-light">Dashboard</h1>
               <p className="text-muted text-sm">
@@ -301,8 +252,6 @@ export default async function AdminDashboard() {
               </table>
             </div>
           </div>
-        </main>
-      </div>
     </div>
   );
 }

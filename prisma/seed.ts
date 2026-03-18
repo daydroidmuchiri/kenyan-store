@@ -12,10 +12,10 @@ async function main() {
   // ── ADMIN USER ──────────────────────────────────────────────────────────
   const adminPassword = await bcrypt.hash("Admin@123", 12);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@BNs Fashion Wear.co.ke" },
+    where: { email: "admin@bnsfashionwear.co.ke" },
     update: {},
     create: {
-      email: "admin@BNs Fashion Wear.co.ke",
+      email: "admin@bnsfashionwear.co.ke",
       name: "BNs Fashion Wear Admin",
       passwordHash: adminPassword,
       role: "ADMIN",
@@ -184,7 +184,7 @@ async function main() {
   console.log("\n🎉 Seeding complete!");
   console.log("─────────────────────────────────────────");
   console.log("Admin login:");
-  console.log("  Email:    admin@BNs Fashion Wear.co.ke");
+  console.log("  Email:    admin@bnsfashionwear.co.ke");
   console.log("  Password: Admin@123");
   console.log("─────────────────────────────────────────");
 }
